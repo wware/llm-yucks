@@ -15,8 +15,8 @@ services:
       - ollama-network
   ollama:
     image: ollama/ollama:latest
-    ports:
-      - 11434:11434
+    # ports:
+    #   - 11434:11434
     volumes:
       - $HOME/.ollama:/root/.ollama:rw
     healthcheck:
