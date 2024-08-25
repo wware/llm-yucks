@@ -151,6 +151,12 @@ messages = [
     {
         "role": "user",
         "content": "Please write some pytest cases for these functions."
+    },
+    PLACEHOLDER,
+    {
+        "role": "user",
+        "content": """Show how these functions could be used to enable debug-level
+        logging when an environment variable `DEBUG` is set to a truthy value."""
     }
 ]
 
