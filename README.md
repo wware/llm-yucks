@@ -1,10 +1,3 @@
-# Jupyter notebook server from Py3 worker
+# Fooling with LLM stuff for coding assistance
 
-```shell
-(
-    docker build -t jupyter . && \
-        docker run --rm -d -v "$(pwd):/work" -p 8888:8888 jupyter
-    # docker run --rm -it -v "$(pwd):/work" -p 8888:8888 jupyter
-)
-```
-
+Use `docker compose up` to kick this off.

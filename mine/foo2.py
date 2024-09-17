@@ -138,7 +138,7 @@ messages = [
         "role": "system",
         "content": """
         If a prompt is Python code, then write google-style docstrings
-        for all classes, methods and functions.
+        for all classes, methods and functions that need them.
         Otherwise, use all python code encountered so far as context to answer any
         questions.
         """
@@ -150,7 +150,9 @@ messages = [
     PLACEHOLDER,
     {
         "role": "user",
-        "content": "Please write some pytest cases for these functions."
+        "content": """Please write some pytest cases for these functions. Test
+        cases should be able to run in any order without affecting whether or
+        not they pass. Avoid any use of global state."""
     },
     PLACEHOLDER,
     {
