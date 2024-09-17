@@ -1,13 +1,13 @@
 ---
 services:
   app:
-    build: mine
+    build: .
     depends_on:
       ollama:
         condition: service_healthy
     volumes:
       - ./cache:/root/.cache:rw
-      - ./mine:/work:rw
+      - .:/work:rw
     environment:
       FETCH: /reference_doc.txt
       OLLAMA_HOST: http://ollama:11434  # Use this in your app to connect to Ollama

@@ -34,4 +34,4 @@ COPY . .
 RUN updatedb
 
 WORKDIR /work
-CMD ["python3.11", "foo2.py"]
+CMD ["python3.11", "foo.py"]
