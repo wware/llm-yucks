@@ -152,7 +152,9 @@ messages = [
         "role": "user",
         "content": """Please write some pytest cases for these functions. Test
         cases should be able to run in any order without affecting whether or
-        not they pass. Avoid any use of global state."""
+        not they pass. Avoid any use of global state. In particular, consider
+        using some mocking or patching scheme for set_env_var() to avoid
+        directly modifying the os.environ dictionary."""
     },
     PLACEHOLDER,
     {
