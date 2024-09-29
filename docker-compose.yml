@@ -1,16 +1,30 @@
 ---
 # version: '3.8'
 services:
-  milvus:
-    image: milvusdb/milvus:latest
+  # milvus:
+  #   image: milvusdb/milvus:latest
+  #   entrypoint: ["milvus", "run", "standalone"]
+  #   ports:
+  #     - "19530:19530"
+  #     - "9091:9091"  # Port for Milvus web UI, optional
+  #   volumes:
+  #     - milvus_data:/var/lib/milvus
+  #   environment:
+  #     - TZ=America/New_York
+  #     - ETCD_USE_EMBEDDED=true
+  #   networks:
+  #     - ollama-network
+
+  weaviate:
+    image: semitechnologies/weaviate:latest
     ports:
-      - "19530:19530"
-    volumes:
-      - milvus_data:/var/lib/milvus
+      - "8080:8080"
     environment:
-      - TZ=UTC
-    networks:
-      - ollama-network
+      QUERY_DEFAULTS_LIMIT: '20'
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: './data'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      ENABLE_MODULES: 'none'
 
   # llm-service:
   #   image: ollama/llm:latest # Replace with the actual image name for your LLM service on Ollama
@@ -58,7 +72,7 @@ services:
       - ollama-network
 
 volumes:
-  milvus_data:
+  weaviate-data:
 
 networks:
   ollama-network:
