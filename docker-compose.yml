@@ -8,6 +8,7 @@ services:
     volumes:
       - ./cache:/root/.cache:rw
       - .:/work:rw
+      - /home/wware/workdir/static-scanner-qa/worker_python3/saf/saf_job.py:/mycode.py
     environment:
       FETCH: /reference_doc.txt
       OLLAMA_HOST: http://ollama:11434  # Use this in your app to connect to Ollama

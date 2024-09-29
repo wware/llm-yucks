@@ -133,6 +133,9 @@ def boolean_env_var(key):
     return is_truthy(fetch_env_var(key, ""))
 """
 
+Z = open("/mycode.py").read()
+print(Z)
+
 messages = [
     {
         "role": "system",

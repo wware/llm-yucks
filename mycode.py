@@ -1,0 +1,1 @@
+/home/wware/workdir/static-scanner-qa/worker_python3/saf/saf_job.py
