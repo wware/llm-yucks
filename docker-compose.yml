@@ -1,5 +1,24 @@
 ---
+# version: '3.8'
 services:
+  milvus:
+    image: milvusdb/milvus:latest
+    ports:
+      - "19530:19530"
+    volumes:
+      - milvus_data:/var/lib/milvus
+    environment:
+      - TZ=UTC
+    networks:
+      - ollama-network
+
+  # llm-service:
+  #   image: ollama/llm:latest # Replace with the actual image name for your LLM service on Ollama
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     - URL=http://milvus:19530   # URL for the vector DB service
+
   app:
     build: .
     depends_on:
@@ -14,6 +33,7 @@ services:
       OLLAMA_HOST: http://ollama:11434  # Use this in your app to connect to Ollama
     networks:
       - ollama-network
+
   ollama:
     image: ollama/ollama:latest
     # ports:
@@ -25,8 +45,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    environment:
+      - URL=http://milvus:19530   # URL for the vector DB service
     networks:
       - ollama-network
+
+  data-ingestion:
+    build: ./data-ingestion
+    depends_on:
+      - milvus
+    networks:
+      - ollama-network
+
+volumes:
+  milvus_data:
 
 networks:
   ollama-network:
