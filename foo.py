@@ -100,7 +100,8 @@ class LLM:
 
 # model_name = "tinyllama"
 # model_name = "mistral"
-model_name = "llama3"
+# model_name = "llama3"
+model_name = "qwen2.5-coder"
 # model_name = "codellama"
 llm = LLM(model_name)
 
@@ -111,6 +112,7 @@ def code_snippet(pathname, start, finish):
         return "\n".join(lines[start-1:finish])
 
 
+# Here is some code that is missing docstrings and pytest cases.
 Z = """
 def is_truthy(s: str):
     try:
@@ -133,7 +135,6 @@ def boolean_env_var(key):
     return is_truthy(fetch_env_var(key, ""))
 """
 
-Z = open("/mycode.py").read()
 print(Z)
 
 messages = [
