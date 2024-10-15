@@ -1,58 +1,30 @@
 ---
-# version: '3.8'
 services:
-  weaviate:
-    image: semitechnologies/weaviate:latest
-    ports:
-      - "8080:8080"
-    environment:
-      QUERY_DEFAULTS_LIMIT: '20'
-      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
-      PERSISTENCE_DATA_PATH: './data'
-      DEFAULT_VECTORIZER_MODULE: 'none'
-      ENABLE_MODULES: 'none'
-      WEAVIATE_NETWORK_INTERFACE: '0.0.0.0'
-
   app:
     build: .
-    depends_on:
-      ollama:
-        condition: service_healthy
+#    depends_on:
+#      ollama:
+#        condition: service_healthy
     volumes:
-      - ./cache:/root/.cache:rw
       - .:/work:rw
-      - /home/wware/workdir/static-scanner-qa/worker_python3/saf/saf_job.py:/mycode.py
     environment:
-      FETCH: /reference_doc.txt
-      OLLAMA_HOST: http://ollama:11434  # Use this in your app to connect to Ollama
+      GROQ_API_KEY: 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
     networks:
       - ollama-network
 
-  ollama:
-    image: ollama/ollama:latest
-    # ports:
-    #   - 11434:11434
-    volumes:
-      - $HOME/.ollama:/root/.ollama:rw
-    healthcheck:
-      test: bash -c "exec 6<> /dev/tcp/localhost/11434"
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    environment:
-      - URL=http://weaviate:8080
-    networks:
-      - ollama-network
-
-  data-ingestion:
-    build: ./data-ingestion
-    depends_on:
-      - weaviate
-    networks:
-      - ollama-network
-
-volumes:
-  weaviate-data:
+#  ollama:
+#    image: ollama/ollama:latest
+#    # ports:
+#    #   - 11434:11434
+#    volumes:
+#      - $HOME/.ollama:/root/.ollama:rw
+#    healthcheck:
+#      test: bash -c "exec 6<> /dev/tcp/localhost/11434"
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#    networks:
+#      - ollama-network
 
 networks:
   ollama-network:

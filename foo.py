@@ -8,7 +8,20 @@ inconsistent sometimes, and poorly documented other times.
 import logging
 import json
 import os
+import sys
 import requests
+import textwrap
+from groq import Groq
+from langchain_groq import ChatGroq
+
+llm = ChatGroq(
+    model="mixtral-8x7b-32768",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+    # other params...
+)
 
 logger = logging.getLogger()
 level = logging.INFO
@@ -20,6 +33,50 @@ logger.setLevel(level)
 h.setLevel(level)
 logger.handlers = [h]
 logger.info("Logger %s is set up", logger)
+
+
+#client = Groq(
+#    api_key=os.environ.get("GROQ_API_KEY"),
+#)
+#
+#chat_completion = client.chat.completions.create(
+#    messages=[
+#        {
+#            "role": "user",
+#            "content": "Explain the importance of fast language models",
+#        }
+#    ],
+#    model="llama3-8b-8192",
+#)
+
+#print(chat_completion.choices[0].message.content)
+#sys.exit(0)
+
+from langchain_core.prompts import ChatPromptTemplate
+
+prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "You are a helpful assistant that translates {input_language} to {output_language}.",
+        ),
+        ("human", "{input}"),
+    ]
+)
+
+chain = prompt | llm
+response = chain.invoke(
+    {
+        "input_language": "English",
+        #"output_language": "German",
+        "output_language": "Mandarin",
+        "input": "I love programming.",
+    }
+)
+print(textwrap.fill(response.content, 60))
+sys.exit(0)
+
+######
 
 PLACEHOLDER = object()
 
@@ -100,7 +157,8 @@ class LLM:
 
 # model_name = "tinyllama"
 # model_name = "mistral"
-model_name = "llama3"
+# model_name = "llama3"
+model_name = "qwen2.5-coder"
 # model_name = "codellama"
 llm = LLM(model_name)
 
@@ -111,6 +169,7 @@ def code_snippet(pathname, start, finish):
         return "\n".join(lines[start-1:finish])
 
 
+# Here is some code that is missing docstrings and pytest cases.
 Z = """
 def is_truthy(s: str):
     try:
@@ -133,7 +192,6 @@ def boolean_env_var(key):
     return is_truthy(fetch_env_var(key, ""))
 """
 
-Z = open("/mycode.py").read()
 print(Z)
 
 messages = [

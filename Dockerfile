@@ -18,20 +18,17 @@ RUN mkdir -p /usr/local/go
 ENV GOPATH=/usr/local/go
 
 # Install PyTorch with CPU-only support
-# ENV TORCH_CPU_ONLY=1
-# RUN wget https://download.pytorch.org/whl/cpu/torch-2.2.0%2Bcpu-cp311-cp311-linux_x86_64.whl
+ENV TORCH_CPU_ONLY=1
+RUN wget https://download.pytorch.org/whl/cpu/torch-2.2.0%2Bcpu-cp311-cp311-linux_x86_64.whl
 
-# # RUN curl -fsSL https://ollama.com/install.sh | sh
+RUN curl -fsSL https://ollama.com/install.sh | sh
 
 RUN apt-get update -y
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3.11 get-pip.py
-RUN pip install setuptools wheel requests
-# RUN pip install torch-2.2.0+cpu-cp311-cp311-linux_x86_64.whl
-
-RUN apt-get update -y
-COPY . .
-RUN updatedb
+RUN pip install -U pip
+RUN pip install -U setuptools wheel requests
+RUN pip install -U groq langchain langchain-groq langchain-core
 
 WORKDIR /work
 CMD ["python3.11", "foo.py"]
