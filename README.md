@@ -1,3 +1,5 @@
-# Fooling with LLM stuff for coding assistance
+# Fooling with LLM stuff
 
-Use `docker compose up` to kick this off.
+Use `docker compose up --build` to kick this off.
+
+Trying to use documents (text and PDF) to answer questions.
